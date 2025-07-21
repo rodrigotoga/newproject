@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4">Agendar Corte</h2>
+    
+    {% if erro %}
+    <div class="alert alert-danger">{{ erro }}</div>
+    {% endif %}
+    
+    <form method="post" class="row g-3 col-md-7" id="agendar-form">
+        {% csrf_token %}
+        <div class="col-md-12">
+            {{ form.tipo_corte.label_tag }}
+            {{ form.tipo_corte }}
+        </div>
+        <div class="col-md-6">
+            {{ form.data.label_tag }}
+            {{ form.data }}
+        </div>
+        <div class="col-md-6">
+            {{ form.hora.label_tag }}
+            {{ form.hora }}
+        </div>
+        <div class="col-md-6">
+            {{ form.valor.label_tag }}
+            <input type="text" name="valor" id="id_valor" class="form-control" placeholder="Valor" readonly>
+        </div>
+        <div class="col-md-12">
+            <button type="submit" class="btn btn-primary">Agendar</button>
+        </div>
+    </form>
+</div>
+<script>
+// Preenche automaticamente o valor conforme o tipo de corte selecionado
+const tipoCorte = document.getElementById('id_tipo_corte');
+const valorInput = document.getElementById('id_valor');
+if (tipoCorte && valorInput) {
+    tipoCorte.addEventListener('change', function() {
+        if (this.value === 'Corte de cabelo') {
+            valorInput.value = '25.00';
+        } else if (this.value === 'Corte + Barba') {
+            valorInput.value = '40.00';
+        } else if (this.value === 'Corte + Sobrancelha') {
+            valorInput.value = '30.00';
+        } else {
+            valorInput.value = '';
+        }
+    });
+}
+</script>
+{% endblock %}
