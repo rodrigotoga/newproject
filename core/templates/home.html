@@ -1,11 +1,125 @@
 {% extends 'base.html' %}
 
+{% block title %}Barbearia - Página Inicial{% endblock %}
+
 {% block content %}
-<div class="container text-center mt-5">
-    <h1>Bem-vindo à Barbearia</h1>
-    <div class="mt-4">
-        <a href="{% url 'login' %}" class="btn btn-primary me-2">Login</a>
-        <a href="{% url 'register' %}" class="btn btn-success">Cadastre-se</a>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white text-center">
+                    <h2 class="mb-0">
+                        <i class="fas fa-cut"></i> Barbearia
+                    </h2>
+                    <p class="mb-0">Sistema de Agendamento</p>
+                </div>
+                <div class="card-body">
+                    <!-- Status da Barbearia -->
+                    <div class="row mb-4">
+                        <div class="col-12">
+                            <div class="card {% if status_barbearia.aberta and status_barbearia.esta_aberta_agora %}border-success{% else %}border-danger{% endif %}">
+                                <div class="card-body text-center">
+                                    <h3 class="mb-3">
+                                        <i class="fas {% if status_barbearia.aberta and status_barbearia.esta_aberta_agora %}fa-door-open text-success{% else %}fa-door-closed text-danger{% endif %} fa-3x"></i>
+                                    </h3>
+                                    <h4 class="mb-2">
+                                        <span class="badge {% if status_barbearia.aberta and status_barbearia.esta_aberta_agora %}bg-success{% else %}bg-danger{% endif %} fs-5">
+                                            {% if status_barbearia.aberta and status_barbearia.esta_aberta_agora %}
+                                                ABERTA
+                                            {% else %}
+                                                FECHADA
+                                            {% endif %}
+                                        </span>
+                                    </h4>
+                                    
+                                    {% if status_barbearia.aberta %}
+                                        <p class="text-muted mb-2">
+                                            <i class="fas fa-clock"></i> 
+                                            Horário de funcionamento: {{ status_barbearia.hora_abertura|time:"H:i" }} - {{ status_barbearia.hora_fechamento|time:"H:i" }}
+                                        </p>
+                                        
+                                        <!-- Dias de funcionamento -->
+                                        <div class="row justify-content-center">
+                                            <div class="col-md-8">
+                                                <p class="text-muted mb-2">Dias de funcionamento:</p>
+                                                <div class="d-flex justify-content-center flex-wrap">
+                                                    {% if status_barbearia.segunda %}
+                                                        <span class="badge bg-secondary me-1 mb-1">Seg</span>
+                                                    {% endif %}
+                                                    {% if status_barbearia.terca %}
+                                                        <span class="badge bg-secondary me-1 mb-1">Ter</span>
+                                                    {% endif %}
+                                                    {% if status_barbearia.quarta %}
+                                                        <span class="badge bg-secondary me-1 mb-1">Qua</span>
+                                                    {% endif %}
+                                                    {% if status_barbearia.quinta %}
+                                                        <span class="badge bg-secondary me-1 mb-1">Qui</span>
+                                                    {% endif %}
+                                                    {% if status_barbearia.sexta %}
+                                                        <span class="badge bg-secondary me-1 mb-1">Sex</span>
+                                                    {% endif %}
+                                                    {% if status_barbearia.sabado %}
+                                                        <span class="badge bg-secondary me-1 mb-1">Sáb</span>
+                                                    {% endif %}
+                                                    {% if status_barbearia.domingo %}
+                                                        <span class="badge bg-secondary me-1 mb-1">Dom</span>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% else %}
+                                        <p class="text-muted">A barbearia está temporariamente fechada.</p>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Botões de ação -->
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <div class="card h-100">
+                                <div class="card-body text-center">
+                                    <i class="fas fa-user fa-3x text-primary mb-3"></i>
+                                    <h5 class="card-title">Sou Cliente</h5>
+                                    <p class="card-text">Faça login para agendar seu corte</p>
+                                    <a href="{% url 'login' %}" class="btn btn-primary">
+                                        <i class="fas fa-sign-in-alt"></i> Fazer Login
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <div class="card h-100">
+                                <div class="card-body text-center">
+                                    <i class="fas fa-cut fa-3x text-success mb-3"></i>
+                                    <h5 class="card-title">Sou Barbeira</h5>
+                                    <p class="card-text">Acesse o painel de controle</p>
+                                    <a href="{% url 'login' %}" class="btn btn-success">
+                                        <i class="fas fa-tachometer-alt"></i> Painel da Barbeira
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Links de registro -->
+                    <div class="row mt-4">
+                        <div class="col-12 text-center">
+                            <p class="text-muted">Não tem uma conta?</p>
+                            <div class="btn-group" role="group">
+                                <a href="{% url 'register' %}" class="btn btn-outline-primary">
+                                    <i class="fas fa-user-plus"></i> Registrar Cliente
+                                </a>
+                                <a href="{% url 'register_barbeira' %}" class="btn btn-outline-success">
+                                    <i class="fas fa-cut"></i> Registrar Barbeira
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 {% endblock %}

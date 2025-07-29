@@ -43,7 +43,19 @@ class CorteBarbeiraForm(forms.ModelForm):
 class StatusBarbeariaForm(forms.ModelForm):
     class Meta:
         model = StatusBarbearia
-        fields = ['aberta']
+        fields = [
+            'aberta', 'hora_abertura', 'hora_fechamento',
+            'segunda', 'terca', 'quarta', 'quinta', 'sexta', 'sabado', 'domingo'
+        ]
         widgets = {
-            'aberta': forms.CheckboxInput(attrs={'class': 'form-check-input'})
+            'aberta': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+            'hora_abertura': forms.TimeInput(attrs={'type': 'time', 'class': 'form-control'}),
+            'hora_fechamento': forms.TimeInput(attrs={'type': 'time', 'class': 'form-control'}),
+            'segunda': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+            'terca': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+            'quarta': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+            'quinta': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+            'sexta': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+            'sabado': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+            'domingo': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
         }

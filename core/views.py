@@ -15,7 +15,9 @@ def home(request):
         else:
             return redirect('dashboard')
     else:
-        return redirect('login')
+        # Verificar status da barbearia para mostrar na página inicial
+        status, created = StatusBarbearia.objects.get_or_create(id=1)
+        return render(request, 'home.html', {'status_barbearia': status})
     
     
 def register(request):
@@ -58,11 +60,27 @@ def login_view(request):
 
 #@login_required
 def dashboard(request):
+    # Verificar se a barbearia está aberta
+    status, created = StatusBarbearia.objects.get_or_create(id=1)
+    barbearia_aberta = status.aberta and status.esta_aberta_agora()
+    
     historico = Corte.objects.filter(cliente=request.user).order_by('-data')
-    return render(request, 'dashboard.html', {'historico': historico})
+    return render(request, 'dashboard.html', {
+        'historico': historico,
+        'barbearia_aberta': barbearia_aberta,
+        'status_barbearia': status
+    })
 
 #@login_required
 def agendar_corte(request):
+    # Verificar se a barbearia está aberta
+    status, created = StatusBarbearia.objects.get_or_create(id=1)
+    barbearia_aberta = status.aberta and status.esta_aberta_agora()
+    
+    if not barbearia_aberta:
+        messages.warning(request, 'A barbearia está fechada no momento. Tente novamente durante o horário de funcionamento.')
+        return redirect('dashboard')
+    
     if request.method == 'POST':
         form = CorteForm(request.POST)
         if form.is_valid():
@@ -207,7 +225,7 @@ def barbeira_status(request):
         form = StatusBarbeariaForm(request.POST, instance=status)
         if form.is_valid():
             form.save()
-            messages.success(request, f'Barbearia marcada como {"ABERTA" if status.aberta else "FECHADA"}!')
+            messages.success(request, f'Configurações da barbearia atualizadas com sucesso!')
             return redirect('barbeira_dashboard')
     else:
         form = StatusBarbeariaForm(instance=status)

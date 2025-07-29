@@ -1,15 +1,15 @@
 {% extends 'base.html' %}
 
-{% block title %}Status da Barbearia{% endblock %}
+{% block title %}Configurações da Barbearia{% endblock %}
 
 {% block content %}
 <div class="container mt-4">
     <div class="row justify-content-center">
-        <div class="col-md-8">
+        <div class="col-md-10">
             <div class="card shadow">
                 <div class="card-header bg-primary text-white">
                     <h4 class="mb-0">
-                        <i class="fas fa-toggle-on"></i> Status da Barbearia
+                        <i class="fas fa-cog"></i> Configurações da Barbearia
                     </h4>
                 </div>
                 <div class="card-body">
@@ -34,7 +34,7 @@
                         </div>
                     </div>
 
-                    <!-- Formulário para alterar status -->
+                    <!-- Formulário de configurações -->
                     <form method="post">
                         {% csrf_token %}
                         
@@ -45,43 +45,126 @@
                         </div>
                         {% endif %}
                         
-                        <div class="row">
+                        <!-- Status da barbearia -->
+                        <div class="row mb-4">
                             <div class="col-md-6">
                                 <div class="card">
                                     <div class="card-header bg-success text-white">
                                         <h5 class="mb-0">
-                                            <i class="fas fa-door-open"></i> Abrir Barbearia
+                                            <i class="fas fa-toggle-on"></i> Status da Barbearia
                                         </h5>
                                     </div>
-                                    <div class="card-body text-center">
-                                        <p class="mb-3">Marque esta opção para indicar que a barbearia está funcionando.</p>
-                                        <div class="form-check form-switch d-flex justify-content-center">
-                                            <input class="form-check-input" type="checkbox" 
-                                                   id="aberta_sim" name="aberta" value="True"
-                                                   {% if status.aberta %}checked{% endif %}>
-                                            <label class="form-check-label ms-2" for="aberta_sim">
+                                    <div class="card-body">
+                                        <div class="form-check form-switch">
+                                            {{ form.aberta }}
+                                            <label class="form-check-label" for="{{ form.aberta.id_for_label }}">
                                                 <strong>Barbearia Aberta</strong>
                                             </label>
+                                        </div>
+                                        <small class="text-muted">
+                                            Marque esta opção para indicar que a barbearia está funcionando.
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Horários de funcionamento -->
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <div class="card">
+                                    <div class="card-header bg-info text-white">
+                                        <h5 class="mb-0">
+                                            <i class="fas fa-clock"></i> Horários de Funcionamento
+                                        </h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label for="{{ form.hora_abertura.id_for_label }}" class="form-label">
+                                                    <i class="fas fa-sun"></i> Horário de Abertura
+                                                </label>
+                                                {{ form.hora_abertura }}
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="{{ form.hora_fechamento.id_for_label }}" class="form-label">
+                                                    <i class="fas fa-moon"></i> Horário de Fechamento
+                                                </label>
+                                                {{ form.hora_fechamento }}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                        </div>
+
+                        <!-- Dias da semana -->
+                        <div class="row mb-4">
+                            <div class="col-12">
                                 <div class="card">
-                                    <div class="card-header bg-danger text-white">
+                                    <div class="card-header bg-warning text-dark">
                                         <h5 class="mb-0">
-                                            <i class="fas fa-door-closed"></i> Fechar Barbearia
+                                            <i class="fas fa-calendar-week"></i> Dias de Funcionamento
                                         </h5>
                                     </div>
-                                    <div class="card-body text-center">
-                                        <p class="mb-3">Desmarque esta opção para indicar que a barbearia está fechada.</p>
-                                        <div class="form-check form-switch d-flex justify-content-center">
-                                            <input class="form-check-input" type="checkbox" 
-                                                   id="aberta_nao" name="aberta" value="False"
-                                                   {% if not status.aberta %}checked{% endif %}>
-                                            <label class="form-check-label ms-2" for="aberta_nao">
-                                                <strong>Barbearia Fechada</strong>
-                                            </label>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-3 mb-2">
+                                                <div class="form-check">
+                                                    {{ form.segunda }}
+                                                    <label class="form-check-label" for="{{ form.segunda.id_for_label }}">
+                                                        Segunda-feira
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 mb-2">
+                                                <div class="form-check">
+                                                    {{ form.terca }}
+                                                    <label class="form-check-label" for="{{ form.terca.id_for_label }}">
+                                                        Terça-feira
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 mb-2">
+                                                <div class="form-check">
+                                                    {{ form.quarta }}
+                                                    <label class="form-check-label" for="{{ form.quarta.id_for_label }}">
+                                                        Quarta-feira
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 mb-2">
+                                                <div class="form-check">
+                                                    {{ form.quinta }}
+                                                    <label class="form-check-label" for="{{ form.quinta.id_for_label }}">
+                                                        Quinta-feira
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 mb-2">
+                                                <div class="form-check">
+                                                    {{ form.sexta }}
+                                                    <label class="form-check-label" for="{{ form.sexta.id_for_label }}">
+                                                        Sexta-feira
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 mb-2">
+                                                <div class="form-check">
+                                                    {{ form.sabado }}
+                                                    <label class="form-check-label" for="{{ form.sabado.id_for_label }}">
+                                                        Sábado
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 mb-2">
+                                                <div class="form-check">
+                                                    {{ form.domingo }}
+                                                    <label class="form-check-label" for="{{ form.domingo.id_for_label }}">
+                                                        Domingo
+                                                    </label>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -89,13 +172,14 @@
                         </div>
 
                         <!-- Informações importantes -->
-                        <div class="alert alert-info mt-4">
+                        <div class="alert alert-info">
                             <h6><i class="fas fa-info-circle"></i> Informações Importantes:</h6>
                             <ul class="mb-0">
                                 <li>O status da barbearia é visível para todos os clientes</li>
+                                <li>Os horários e dias de funcionamento são verificados automaticamente</li>
                                 <li>Quando fechada, os clientes não poderão fazer novos agendamentos</li>
-                                <li>Você pode alterar o status a qualquer momento</li>
-                                <li>O status é atualizado automaticamente com data e hora</li>
+                                <li>Você pode alterar as configurações a qualquer momento</li>
+                                <li>As configurações são atualizadas automaticamente com data e hora</li>
                             </ul>
                         </div>
 
@@ -104,7 +188,7 @@
                                 <i class="fas fa-arrow-left"></i> Voltar ao Dashboard
                             </a>
                             <button type="submit" class="btn btn-primary">
-                                <i class="fas fa-save"></i> Salvar Status
+                                <i class="fas fa-save"></i> Salvar Configurações
                             </button>
                         </div>
                     </form>
@@ -116,23 +200,16 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Sincronizar os checkboxes
-    const checkboxAberta = document.getElementById('aberta_sim');
-    const checkboxFechada = document.getElementById('aberta_nao');
+    // Sincronizar os checkboxes de dias da semana
+    const diasSemana = ['segunda', 'terca', 'quarta', 'quinta', 'sexta', 'sabado', 'domingo'];
     
-    checkboxAberta.addEventListener('change', function() {
-        if (this.checked) {
-            checkboxFechada.checked = false;
-        } else {
-            checkboxFechada.checked = true;
-        }
-    });
-    
-    checkboxFechada.addEventListener('change', function() {
-        if (this.checked) {
-            checkboxAberta.checked = false;
-        } else {
-            checkboxAberta.checked = true;
+    diasSemana.forEach(dia => {
+        const checkbox = document.getElementById(`id_${dia}`);
+        if (checkbox) {
+            checkbox.addEventListener('change', function() {
+                // Atualizar visualização em tempo real
+                console.log(`${dia}: ${this.checked}`);
+            });
         }
     });
 });
@@ -140,7 +217,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 <style>
 .form-check-input {
-    width: 3rem;
+    width: 1.5rem;
     height: 1.5rem;
 }
 
