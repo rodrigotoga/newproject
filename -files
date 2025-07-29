@@ -1,0 +1,57 @@
+[33mcommit f6b8b304ad24115e350ec7556f7dc7164b8a3c10[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m
+Author: Rodrigo Toga <trodrigo350@gmail.com>
+Date:   Mon Jul 21 21:21:18 2025 -0300
+
+    Primeiro envio para o GitHub
+
+ core/__pycache__/views.cpython-313.pyc | Bin [31m4430[m -> [32m4430[m bytes
+ db.sqlite3                             | Bin [31m139264[m -> [32m139264[m bytes
+ 2 files changed, 0 insertions(+), 0 deletions(-)
+
+[33mcommit 7eee91a61a8b4fbc8ee51ce1d4891cd7dc63c0a7[m
+Author: Rodrigo Toga <trodrigo350@gmail.com>
+Date:   Mon Jul 21 20:57:47 2025 -0300
+
+    primeiro commit
+
+ barbearia/__init__.py                              |   0
+ barbearia/__pycache__/__init__.cpython-313.pyc     | Bin [31m0[m -> [32m164[m bytes
+ barbearia/__pycache__/settings.cpython-313.pyc     | Bin [31m0[m -> [32m2588[m bytes
+ barbearia/__pycache__/urls.cpython-313.pyc         | Bin [31m0[m -> [32m1711[m bytes
+ barbearia/__pycache__/wsgi.cpython-313.pyc         | Bin [31m0[m -> [32m656[m bytes
+ barbearia/asgi.py                                  |  16 [32m+++[m
+ barbearia/settings.py                              | 129 [32m+++++++++++++++++++++[m
+ barbearia/urls.py                                  |  31 [32m+++++[m
+ barbearia/wsgi.py                                  |  16 [32m+++[m
+ barberapp                                          |   1 [32m+[m
+ core/__init__.py                                   |   0
+ core/__pycache__/__init__.cpython-313.pyc          | Bin [31m0[m -> [32m159[m bytes
+ core/__pycache__/admin.cpython-313.pyc             | Bin [31m0[m -> [32m423[m bytes
+ core/__pycache__/apps.cpython-313.pyc              | Bin [31m0[m -> [32m519[m bytes
+ core/__pycache__/forms.cpython-313.pyc             | Bin [31m0[m -> [32m1781[m bytes
+ core/__pycache__/models.cpython-313.pyc            | Bin [31m0[m -> [32m2154[m bytes
+ core/__pycache__/urls.cpython-313.pyc              | Bin [31m0[m -> [32m840[m bytes
+ core/__pycache__/views.cpython-313.pyc             | Bin [31m0[m -> [32m4430[m bytes
+ core/admin.py                                      |   5 [32m+[m
+ core/apps.py                                       |   6 [32m+[m
+ core/forms.py                                      |  23 [32m++++[m
+ core/migrations/0001_initial.py                    |  57 [32m+++++++++[m
+ core/migrations/__init__.py                        |   0
+ .../__pycache__/0001_initial.cpython-313.pyc       | Bin [31m0[m -> [32m4290[m bytes
+ .../__pycache__/__init__.cpython-313.pyc           | Bin [31m0[m -> [32m170[m bytes
+ core/models.py                                     |  38 [32m++++++[m
+ core/templates/agendados.html                      |  19 [32m+++[m
+ core/templates/agendar.html                        |  52 [32m+++++++++[m
+ core/templates/base.html                           |  25 [32m++++[m
+ core/templates/dashboard.html                      |  24 [32m++++[m
+ core/templates/fila.html                           |  39 [32m+++++++[m
+ core/templates/home.html                           |  11 [32m++[m
+ core/templates/login.html                          |  23 [32m++++[m
+ core/templates/navbar.html                         |  15 [32m+++[m
+ core/templates/register.html                       |  17 [32m+++[m
+ core/tests.py                                      |   3 [32m+[m
+ core/urls.py                                       |  13 [32m+++[m
+ core/views.py                                      |  78 [32m+++++++++++++[m
+ db.sqlite3                                         | Bin [31m0[m -> [32m139264[m bytes
+ manage.py                                          |  22 [32m++++[m
+ 40 files changed, 663 insertions(+)
