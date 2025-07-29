@@ -13,7 +13,6 @@ class ClienteRegisterForm(UserCreationForm):
 class BarbeiraRegisterForm(UserCreationForm):
     email = forms.EmailField()
     telefone = forms.CharField(max_length=20)
-    is_barbeira = forms.BooleanField(initial=True, widget=forms.HiddenInput())
 
     class Meta:
         model = Cliente
