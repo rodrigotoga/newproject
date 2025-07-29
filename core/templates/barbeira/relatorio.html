@@ -1,0 +1,205 @@
+{% extends 'base.html' %}
+
+{% block title %}Relatórios{% endblock %}
+
+{% block content %}
+<div class="container-fluid mt-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h4 class="mb-0">
+                        <i class="fas fa-chart-bar"></i> Relatórios
+                    </h4>
+                    <a href="{% url 'barbeira_dashboard' %}" class="btn btn-outline-secondary">
+                        <i class="fas fa-arrow-left"></i> Voltar ao Dashboard
+                    </a>
+                </div>
+                <div class="card-body">
+                    <!-- Filtros -->
+                    <div class="row mb-4">
+                        <div class="col-md-8">
+                            <form method="get" class="row g-3">
+                                <div class="col-md-4">
+                                    <label for="data_inicio" class="form-label">
+                                        <i class="fas fa-calendar"></i> Data Início
+                                    </label>
+                                    <input type="date" name="data_inicio" id="data_inicio" 
+                                           value="{{ data_inicio }}" class="form-control">
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="data_fim" class="form-label">
+                                        <i class="fas fa-calendar"></i> Data Fim
+                                    </label>
+                                    <input type="date" name="data_fim" id="data_fim" 
+                                           value="{{ data_fim }}" class="form-control">
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label">&nbsp;</label>
+                                    <button type="submit" class="btn btn-primary w-100">
+                                        <i class="fas fa-search"></i> Filtrar
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Cards de resumo -->
+                    <div class="row mb-4">
+                        <div class="col-md-4">
+                            <div class="card bg-primary text-white">
+                                <div class="card-body text-center">
+                                    <h6 class="card-title">Total de Agendamentos</h6>
+                                    <h2 class="mb-0">{{ cortes.count }}</h2>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card bg-success text-white">
+                                <div class="card-body text-center">
+                                    <h6 class="card-title">Cortes Realizados</h6>
+                                    <h2 class="mb-0">{{ total_cortes }}</h2>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card bg-warning text-white">
+                                <div class="card-body text-center">
+                                    <h6 class="card-title">Faturamento Total</h6>
+                                    <h2 class="mb-0">R$ {{ total_valor }}</h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {% if cortes %}
+                    <!-- Tabela de agendamentos -->
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>Data</th>
+                                    <th>Horário</th>
+                                    <th>Cliente</th>
+                                    <th>Valor</th>
+                                    <th>Status</th>
+                                    <th>Observações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for corte in cortes %}
+                                <tr>
+                                    <td>
+                                        <i class="fas fa-calendar"></i>
+                                        {{ corte.data|date:"d/m/Y" }}
+                                    </td>
+                                    <td>
+                                        <i class="fas fa-clock"></i>
+                                        {{ corte.hora|time:"H:i" }}
+                                    </td>
+                                    <td>
+                                        <i class="fas fa-user"></i>
+                                        {{ corte.cliente.username }}
+                                    </td>
+                                    <td>
+                                        <i class="fas fa-dollar-sign"></i>
+                                        R$ {{ corte.valor }}
+                                    </td>
+                                    <td>
+                                        {% if corte.realizado %}
+                                        <span class="badge bg-success">
+                                            <i class="fas fa-check"></i> Realizado
+                                        </span>
+                                        {% else %}
+                                        <span class="badge bg-warning">
+                                            <i class="fas fa-clock"></i> Pendente
+                                        </span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if corte.observacoes %}
+                                        <span class="text-muted" title="{{ corte.observacoes }}">
+                                            {{ corte.observacoes|truncatechars:30 }}
+                                        </span>
+                                        {% else %}
+                                        <span class="text-muted">-</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Estatísticas detalhadas -->
+                    <div class="row mt-4">
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 class="mb-0">
+                                        <i class="fas fa-chart-pie"></i> Resumo por Status
+                                    </h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div class="text-center">
+                                                <h4 class="text-success">{{ total_cortes }}</h4>
+                                                <p class="text-muted">Realizados</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="text-center">
+                                                <h4 class="text-warning">{{ cortes.count|add:"-"|add:total_cortes }}</h4>
+                                                <p class="text-muted">Pendentes</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 class="mb-0">
+                                        <i class="fas fa-dollar-sign"></i> Informações Financeiras
+                                    </h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div class="text-center">
+                                                <h4 class="text-primary">R$ {{ total_valor }}</h4>
+                                                <p class="text-muted">Faturamento</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="text-center">
+                                                <h4 class="text-info">
+                                                    {% if total_cortes > 0 %}
+                                                    R$ {{ total_valor|floatformat:2 }}
+                                                    {% else %}
+                                                    R$ 0,00
+                                                    {% endif %}
+                                                </h4>
+                                                <p class="text-muted">Média por Corte</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% else %}
+                    <div class="text-center py-5">
+                        <i class="fas fa-chart-line fa-4x text-muted mb-3"></i>
+                        <h4 class="text-muted">Nenhum dado encontrado</h4>
+                        <p class="text-muted">Não há agendamentos no período selecionado.</p>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

@@ -1,0 +1,157 @@
+{% extends 'base.html' %}
+
+{% block title %}Status da Barbearia{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">
+                        <i class="fas fa-toggle-on"></i> Status da Barbearia
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <!-- Status atual -->
+                    <div class="row mb-4">
+                        <div class="col-12">
+                            <div class="card {% if status.aberta %}border-success{% else %}border-danger{% endif %}">
+                                <div class="card-body text-center">
+                                    <h3 class="mb-3">
+                                        <i class="fas {% if status.aberta %}fa-door-open text-success{% else %}fa-door-closed text-danger{% endif %} fa-3x"></i>
+                                    </h3>
+                                    <h4 class="mb-2">
+                                        <span class="badge {% if status.aberta %}bg-success{% else %}bg-danger{% endif %} fs-5">
+                                            {% if status.aberta %}ABERTA{% else %}FECHADA{% endif %}
+                                        </span>
+                                    </h4>
+                                    <p class="text-muted mb-0">
+                                        Última atualização: {{ status.data_atualizacao|date:"d/m/Y às H:i" }}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Formulário para alterar status -->
+                    <form method="post">
+                        {% csrf_token %}
+                        
+                        {% if form.errors %}
+                        <div class="alert alert-danger">
+                            <h6>Erro no formulário:</h6>
+                            {{ form.errors }}
+                        </div>
+                        {% endif %}
+                        
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="card">
+                                    <div class="card-header bg-success text-white">
+                                        <h5 class="mb-0">
+                                            <i class="fas fa-door-open"></i> Abrir Barbearia
+                                        </h5>
+                                    </div>
+                                    <div class="card-body text-center">
+                                        <p class="mb-3">Marque esta opção para indicar que a barbearia está funcionando.</p>
+                                        <div class="form-check form-switch d-flex justify-content-center">
+                                            <input class="form-check-input" type="checkbox" 
+                                                   id="aberta_sim" name="aberta" value="True"
+                                                   {% if status.aberta %}checked{% endif %}>
+                                            <label class="form-check-label ms-2" for="aberta_sim">
+                                                <strong>Barbearia Aberta</strong>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card">
+                                    <div class="card-header bg-danger text-white">
+                                        <h5 class="mb-0">
+                                            <i class="fas fa-door-closed"></i> Fechar Barbearia
+                                        </h5>
+                                    </div>
+                                    <div class="card-body text-center">
+                                        <p class="mb-3">Desmarque esta opção para indicar que a barbearia está fechada.</p>
+                                        <div class="form-check form-switch d-flex justify-content-center">
+                                            <input class="form-check-input" type="checkbox" 
+                                                   id="aberta_nao" name="aberta" value="False"
+                                                   {% if not status.aberta %}checked{% endif %}>
+                                            <label class="form-check-label ms-2" for="aberta_nao">
+                                                <strong>Barbearia Fechada</strong>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Informações importantes -->
+                        <div class="alert alert-info mt-4">
+                            <h6><i class="fas fa-info-circle"></i> Informações Importantes:</h6>
+                            <ul class="mb-0">
+                                <li>O status da barbearia é visível para todos os clientes</li>
+                                <li>Quando fechada, os clientes não poderão fazer novos agendamentos</li>
+                                <li>Você pode alterar o status a qualquer momento</li>
+                                <li>O status é atualizado automaticamente com data e hora</li>
+                            </ul>
+                        </div>
+
+                        <div class="d-flex justify-content-between mt-4">
+                            <a href="{% url 'barbeira_dashboard' %}" class="btn btn-secondary">
+                                <i class="fas fa-arrow-left"></i> Voltar ao Dashboard
+                            </a>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save"></i> Salvar Status
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Sincronizar os checkboxes
+    const checkboxAberta = document.getElementById('aberta_sim');
+    const checkboxFechada = document.getElementById('aberta_nao');
+    
+    checkboxAberta.addEventListener('change', function() {
+        if (this.checked) {
+            checkboxFechada.checked = false;
+        } else {
+            checkboxFechada.checked = true;
+        }
+    });
+    
+    checkboxFechada.addEventListener('change', function() {
+        if (this.checked) {
+            checkboxAberta.checked = false;
+        } else {
+            checkboxAberta.checked = true;
+        }
+    });
+});
+</script>
+
+<style>
+.form-check-input {
+    width: 3rem;
+    height: 1.5rem;
+}
+
+.form-check-input:checked {
+    background-color: #198754;
+    border-color: #198754;
+}
+
+.form-check-input:not(:checked) {
+    background-color: #dc3545;
+    border-color: #dc3545;
+}
+</style>
+{% endblock %} 
