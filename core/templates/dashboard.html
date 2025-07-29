@@ -82,7 +82,7 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                {% for corte in historico %}
+        {% for corte in historico %}
                                                 <tr>
                                                     <td>
                                                         <i class="fas fa-calendar"></i>
@@ -97,7 +97,7 @@
                                                         R$ {{ corte.valor }}
                                                     </td>
                                                     <td>
-                                                        {% if corte.realizado %}
+                {% if corte.realizado %}
                                                         <span class="badge bg-success">
                                                             <i class="fas fa-check"></i> Realizado
                                                         </span>
@@ -105,10 +105,10 @@
                                                         <span class="badge bg-warning">
                                                             <i class="fas fa-clock"></i> Pendente
                                                         </span>
-                                                        {% endif %}
+                {% endif %}
                                                     </td>
                                                 </tr>
-                                                {% endfor %}
+        {% endfor %}
                                             </tbody>
                                         </table>
                                     </div>
