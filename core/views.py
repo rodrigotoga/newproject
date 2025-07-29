@@ -18,6 +18,10 @@ def home(request):
         # Verificar status da barbearia para mostrar na página inicial
         status, created = StatusBarbearia.objects.get_or_create(id=1)
         return render(request, 'home.html', {'status_barbearia': status})
+
+def offline(request):
+    """Página offline para PWA"""
+    return render(request, 'offline.html')
     
     
 def register(request):
